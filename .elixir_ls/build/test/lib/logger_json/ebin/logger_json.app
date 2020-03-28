@@ -1,0 +1,11 @@
+{application,logger_json,
+             [{applications,[kernel,stdlib,elixir,logger,jason]},
+              {description,"Console Logger back-end, Plug and Ecto.LogEntry adapter that writes logs in JSON format."},
+              {modules,['Elixir.LoggerJSON','Elixir.LoggerJSON.Ecto',
+                        'Elixir.LoggerJSON.Formatter',
+                        'Elixir.LoggerJSON.Formatters.GoogleCloudLogger',
+                        'Elixir.LoggerJSON.Plug',
+                        'Elixir.LoggerJSON.Plug.MetadataFormatters.ELK',
+                        'Elixir.LoggerJSON.Plug.MetadataFormatters.GoogleCloudLogger']},
+              {registered,[]},
+              {vsn,"3.3.0"}]}.

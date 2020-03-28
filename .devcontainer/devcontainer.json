@@ -1,0 +1,13 @@
+{
+	"name": "VSCode Remote",
+	"dockerComposeFile": [
+			"./docker-compose.yml"
+	],
+	"extensions": [
+			"bierner.lit-html",
+			"elixir-lsp.elixir-ls"
+	],
+	"appPort": 4000,
+	"service": "app",
+	"workspaceFolder": "/workspace"
+}

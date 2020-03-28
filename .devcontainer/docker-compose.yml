@@ -1,0 +1,96 @@
+version: '3.7'
+
+services:
+  cadvisor:
+    image: google/cadvisor:v0.33.0
+    ports:
+      - '8080:8080'
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+
+  postgres:
+    image: postgres:12.0
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+
+  postgres_exporter:
+    image: wrouesnel/postgres_exporter:v0.7.0
+    ports:
+      - '9187:9187'
+    depends_on:
+      - postgres
+    environment:
+      DATA_SOURCE_USER: postgres
+      DATA_SOURCE_PASS: postgres
+      DATA_SOURCE_URI: postgres:5432/?sslmode=disable
+
+  grafana:
+    image: grafana/grafana:6.4.4
+    depends_on:
+      - prometheus
+    ports:
+      - '3000:3000'
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ../docker/grafana/:/etc/grafana/provisioning/
+    env_file:
+      - ../docker/grafana/.env
+
+  prometheus:
+    image: prom/prometheus:v2.13.0
+    ports:
+      - '9090:9090'
+    volumes:
+      - ../docker/prometheus/:/etc/prometheus/
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/config.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+
+  loki:
+    image: grafana/loki:master-f106c09
+    volumes:
+      - ../docker/loki/loki-config.yml:/etc/loki/loki-config.yml
+      - loki-data-index:/loki-index
+      - loki-data-chunks:/loki-chunks
+    expose:
+      - 3100
+    ports:
+      - '3100:3100'
+    command: '-config.file=/etc/loki/loki-config.yml'
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: birdie_app
+    ports:
+      - "4000:4000"
+    logging:
+      driver: loki
+      options:
+        loki-url: 'http://loki:loki@loki:3100/loki/api/v1/push'
+    volumes:
+      - ..:/workspace
+      - ~/.gitconfig:/root/.gitconfig
+      - ~/.ssh:/root/.ssh
+    command: sleep infinity
+    depends_on:
+      - postgres
+
+volumes:
+  postgres-data: {}
+  prometheus-data: {}
+  loki-data-index: {}
+  loki-data-chunks: {}
+  grafana-data: {}
