@@ -5,7 +5,7 @@ config :birdie, Birdie.Repo,
   username: "postgres",
   password: "postgres",
   database: "birdie_test",
-  hostname: "localhost",
+  hostname: "postgres",
   migration_primary_key: [name: :id, type: :binary_id],
   pool: Ecto.Adapters.SQL.Sandbox
 

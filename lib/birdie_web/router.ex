@@ -23,6 +23,9 @@ defmodule BirdieWeb.Router do
   scope "/api", BirdieWeb.API do
     pipe_through :api
 
-    resources "/toppings", ToppingController, only: [:index, :show, :create]
+    resources "/toppings", ToppingController, except: [:new, :edit]
+    resources "/proteins", ProteinController, except: [:new, :edit]
+    resources "/sauces", SauceController, except: [:new, :edit]
+    resources "/entrees", EntreeController, except: [:new, :edit]
   end
 end

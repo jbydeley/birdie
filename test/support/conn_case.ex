@@ -21,8 +21,10 @@ defmodule BirdieWeb.ConnCase do
     quote do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
-      alias BirdieWeb.Router.Helpers, as: Routes
 
+      alias BirdieWeb.Router.Helpers, as: Routes
+      import BirdieWeb.Factory
+      import BirdieWeb.ConnCaseHelper
       # The default endpoint for testing
       @endpoint BirdieWeb.Endpoint
     end

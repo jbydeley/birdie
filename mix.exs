@@ -25,8 +25,8 @@ defmodule Birdie.MixProject do
   end
 
   # Specifies which paths to compile per environment.
-  defp elixirc_paths(:test), do: ["lib", "test/support"]
-  defp elixirc_paths(_), do: ["lib"]
+  defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
+  defp elixirc_paths(_), do: ["lib", "web"]
 
   # Specifies your project dependencies.
   #
@@ -45,6 +45,7 @@ defmodule Birdie.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:prometheus_plugs, "~> 1.1.5"},
       {:prometheus_phoenix, "~> 1.3.0"},
+      {:ex_machina, "~> 2.4", only: :test},
       {:logger_json, "~> 3.3.0"}
     ]
   end

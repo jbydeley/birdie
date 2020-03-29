@@ -12,7 +12,7 @@ class ToppingItem extends SirenElement(LitElement) {
 
 	render() {
 		return html`
-		<h1>${this.name}!</h1>
+		<h1>${this.name}</h1>
 		`
 	}
 }
