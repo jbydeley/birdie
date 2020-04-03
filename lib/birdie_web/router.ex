@@ -27,5 +27,10 @@ defmodule BirdieWeb.Router do
     resources "/proteins", ProteinController, except: [:new, :edit]
     resources "/sauces", SauceController, except: [:new, :edit]
     resources "/entrees", EntreeController, except: [:new, :edit]
+    resources "/orders", OrderController, except: [:new, :edit] do
+      resources "/items", OrderItemController, except: [:new, :edit] do
+        resources "/toppings", ToppingController, only: [:index]
+      end
+    end
   end
 end

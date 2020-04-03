@@ -9,7 +9,6 @@ class ToppingList extends SirenElement(LitElement) {
 			return []
 		}
 
-		console.log(this.entity)
 		return this.entity.entities
 	}
 

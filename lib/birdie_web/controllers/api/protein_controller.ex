@@ -8,13 +8,19 @@ defmodule BirdieWeb.API.ProteinController do
   def index(conn, _params) do
     proteins = Proteins.list_proteins()
 
-    render(conn, "index.json", proteins: proteins)
+    # conn = Enum.reduce(proteins, conn, fn (protein, acc) ->
+    #   push(acc, Routes.protein_path(conn, :show, protein))
+    # end)
+
+    conn
+    |> render("index.json", proteins: proteins)
   end
 
   def show(conn, %{"id" => id}) do
     protein = Proteins.find_protein(id)
 
-    render(conn, "show.json", protein: protein)
+    conn
+    |> render("show.json", protein: protein)
   end
 
   def create(conn, %{"name" => _} = params) do

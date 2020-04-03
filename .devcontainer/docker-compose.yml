@@ -76,10 +76,11 @@ services:
     container_name: birdie_app
     ports:
       - "4000:4000"
+      - "4001:4001"
     logging:
       driver: loki
       options:
-        loki-url: 'http://loki:loki@loki:3100/loki/api/v1/push'
+        loki-url: 'http://loki:loki@localhost:3100/loki/api/v1/push'
     volumes:
       - ..:/workspace
       - ~/.gitconfig:/root/.gitconfig

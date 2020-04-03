@@ -14,17 +14,18 @@ alias Birdie.Repo
 alias Birdie.Entrees.Entree
 alias Birdie.Proteins.Protein
 alias Birdie.Ingredients.{Sauce, Topping}
+alias Birdie.Orders.{Order, OrderItem, OrderItemSauce, OrderItemTopping}
 
 # Entrees
 
-Repo.insert!(%Entree{name: "Burrito"})
+entree = Repo.insert!(%Entree{name: "Burrito"})
 Repo.insert!(%Entree{name: "Taco"})
 Repo.insert!(%Entree{name: "Quesadilla"})
 Repo.insert!(%Entree{name: "Naked"})
 
 # Proteins
 
-Repo.insert!(%Protein{name: "Chipotle Beef"})
+protein = Repo.insert!(%Protein{name: "Chipotle Beef"})
 Repo.insert!(%Protein{name: "Chicken"})
 Repo.insert!(%Protein{name: "Pork"})
 Repo.insert!(%Protein{name: "Vegetables"})
@@ -34,7 +35,7 @@ Repo.insert!(%Protein{name: "Ancho Beef"})
 
 # Ingredients
 
-Repo.insert!(%Topping{name: "Refried Beans"})
+topping = Repo.insert!(%Topping{name: "Refried Beans"})
 Repo.insert!(%Topping{name: "Black Beans"})
 Repo.insert!(%Topping{name: "Rice"})
 Repo.insert!(%Topping{name: "Lettuce"})
@@ -51,8 +52,13 @@ Repo.insert!(%Topping{name: "Tomatoes"})
 
 # Sauces
 
-Repo.insert!(%Sauce{name: "Sour Cream"})
+sauce = Repo.insert!(%Sauce{name: "Sour Cream"})
 Repo.insert!(%Sauce{name: "Medium Chipotle", spice: 2})
 Repo.insert!(%Sauce{name: "Burrito Sauce", spice: 1})
 Repo.insert!(%Sauce{name: "Habenero Hot", spice: 5})
 Repo.insert!(%Sauce{name: "Roasted Red Peppers"})
+
+order = Repo.insert!(%Order{first_name: "Jared", last_name: "Bydeley"})
+order_item = Repo.insert!(%OrderItem{order_id: order.id, entree_id: entree.id, protein_id: protein.id})
+Repo.insert!(%OrderItemSauce{sauce_id: sauce.id, order_item_id: order_item.id})
+Repo.insert!(%OrderItemTopping{topping_id: topping.id, order_item_id: order_item.id})

@@ -5,16 +5,33 @@ defmodule BirdieWeb.API.ToppingController do
 
   require Logger
 
-  def index(conn, _params) do
-    toppings = Ingredients.list_toppings()
+  def index(conn, %{"order_id" => order_id}) do
+    {toppings, _count} = Ingredients.list_toppings_by_order_item(order_id)
 
-    render(conn, "index.json", toppings: toppings)
+    # conn = Enum.reduce(toppings, conn, fn (topping, push_conn) ->
+    #   push(push_conn, Routes.topping_path(conn, :show, topping))
+    # end)
+
+    conn
+    |> render("index.json", toppings: toppings)
+  end
+
+  def index(conn, _params) do
+    {toppings, _count} = Ingredients.list_toppings()
+
+    conn = Enum.reduce(toppings, conn, fn (topping, push_conn) ->
+      push(push_conn, Routes.topping_path(conn, :show, topping))
+    end)
+
+    conn
+    |> render("index.json", toppings: toppings)
   end
 
   def show(conn, %{"id" => id}) do
     topping = Ingredients.find_topping(id)
 
-    render(conn, "show.json", topping: topping)
+    conn
+    |> render("show.json", topping: topping)
   end
 
   def create(conn, %{"name" => _} = params) do

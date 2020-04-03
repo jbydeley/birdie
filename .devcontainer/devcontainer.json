@@ -7,7 +7,7 @@
 			"bierner.lit-html",
 			"elixir-lsp.elixir-ls"
 	],
-	"appPort": 4000,
+	"appPort": 4001,
 	"service": "app",
 	"workspaceFolder": "/workspace"
 }

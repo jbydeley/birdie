@@ -1,20 +1,15 @@
-<section class="phx-hero">
-  <h1><%= gettext "Welcome to %{name}!", name: "Phoenix" %></h1>
-  <p>A productive web framework that<br/>does not compromise speed or maintainability.</p>
-</section>
-
 <section class="row">
   <article class="column">
     <h2>Jared's Best Links</h2>
     <ul>
       <li>
-        <a href="https://hexdocs.pm/phoenix/overview.html">Guides &amp; Docs</a>
+        <topping-list href="https://localhost:4001/api/entrees"></topping-list>
       </li>
       <li>
-        <a href="https://github.com/phoenixframework/phoenix">Source</a>
+        <topping-list href="https://localhost:4001/api/proteins"></topping-list>
       </li>
       <li>
-        <a href="https://github.com/phoenixframework/phoenix/blob/v1.4/CHANGELOG.md">v1.4 Changelog</a>
+        <topping-list href="https://localhost:4001/api/sauces"></topping-list>
       </li>
     </ul>
   </article>
@@ -22,7 +17,7 @@
     <h2>Help</h2>
     <ul>
       <li>
-        <topping-list href="http://localhost:4000/api/toppings"></topping-list>
+        <topping-list href="https://localhost:4001/api/toppings"></topping-list>
       <li>
         <a href="https://webchat.freenode.net/?channels=elixir-lang">#elixir-lang on Freenode IRC</a>
       </li>

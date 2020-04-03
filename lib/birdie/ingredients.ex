@@ -2,6 +2,7 @@ defmodule Birdie.Ingredients do
   import Ecto.Query
 
   alias Birdie.Repo
+  alias Birdie.Orders.OrderItem
   alias Birdie.Ingredients.{Sauce, Topping}
 
   def create_topping(attrs \\ %{}) do
@@ -16,10 +17,27 @@ defmodule Birdie.Ingredients do
     |> Repo.update()
   end
 
-  def list_toppings() do
+  def list_toppings_by_order_item(order_item_id, offset \\ 0, limit \\ 15) do
+    # Sub Query to join order_item and topping through order_item_topping
     query = from t in Topping,
-      select: t.id
+      join: o in OrderItem,
+      on: o.topping_id == ^order_item_id,
+      offset: ^offset,
+      limit: ^limit
+
     Repo.all(query)
+  end
+
+  def list_toppings(offset \\ 0, limit \\ 15) do
+    count = Repo.all(from t in Topping, select: count(t))
+
+    query = from t in Topping,
+      offset: ^offset,
+      limit: ^limit,
+      select: t.id
+
+    toppings = Repo.all(query)
+    {toppings, count}
   end
 
   def find_topping(id) do

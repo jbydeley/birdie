@@ -8,13 +8,19 @@ defmodule BirdieWeb.API.EntreeController do
   def index(conn, _params) do
     entrees = Entrees.list_Entrees()
 
-    render(conn, "index.json", entrees: entrees)
+    # conn = Enum.reduce(entrees, conn, fn (entree, acc) ->
+    #   push(acc, Routes.entree_path(conn, :show, entree))
+    # end)
+
+    conn
+    |> render("index.json", entrees: entrees)
   end
 
   def show(conn, %{"id" => id}) do
     entree = Entrees.find_Entree(id)
 
-    render(conn, "show.json", entree: entree)
+    conn
+    |> render("show.json", entree: entree)
   end
 
   def create(conn, %{"name" => _} = params) do

@@ -8,13 +8,19 @@ defmodule BirdieWeb.API.SauceController do
   def index(conn, _params) do
     sauces = Ingredients.list_sauces()
 
-    render(conn, "index.json", sauces: sauces)
+    conn = Enum.reduce(sauces, conn, fn (sauce, acc) ->
+      push(acc, Routes.sauce_path(conn, :show, sauce))
+    end)
+
+    conn
+    |> render("index.json", sauces: sauces)
   end
 
   def show(conn, %{"id" => id}) do
     sauce = Ingredients.find_sauce(id)
 
-    render(conn, "show.json", sauce: sauce)
+    conn
+    |> render("show.json", sauce: sauce)
   end
 
   def create(conn, %{"name" => _} = params) do
